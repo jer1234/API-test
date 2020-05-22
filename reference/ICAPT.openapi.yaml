@@ -1,0 +1,3758 @@
+openapi: 3.0.1
+info:
+  title: ICAPT
+  description: ''
+  version: '1.0'
+servers:
+  - url: 'https://icapt-api.azure-api.net'
+paths:
+  /warehouses:
+    get:
+      tags:
+        - Warehouse
+      summary: List Warehouses
+      description: GET warehouses
+      operationId: get-warehouses
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            enum:
+              - application/json
+            type: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListWarehousesResponse'
+    post:
+      tags:
+        - Warehouse
+      summary: Create Warehouse
+      description: Create a new Warehouse
+      operationId: post-warehouses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Warehouse'
+      responses:
+        '201':
+          description: ''
+        '422':
+          description: ''
+  '/warehouses/{warehouse_id}':
+    get:
+      tags:
+        - Warehouse
+      summary: Read Warehouse by ID
+      description: GET Warehouse by Id
+      operationId: get-warehouse-by-id
+      parameters:
+        - name: warehouse_id
+          in: path
+          description: The Warehouse ID
+          required: true
+          schema:
+            type: integer
+        - name: Accept
+          in: header
+          schema:
+            enum:
+              - application/json
+            type: ''
+        - name: Auth
+          in: header
+          description: Bearer token
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Warehouse'
+        '404':
+          description: Warehouse not found
+    delete:
+      tags:
+        - Warehouse
+      summary: Delete a Warehouse
+      description: |-
+        This method gives a site the option to delete one warehouse from the Warehouses list.
+
+        Exception:
+
+        - Warehouse exists in a Location
+
+        This warehouse will be immediately removed. This action is not reversible.
+      operationId: delete-a-warehouse
+      parameters:
+        - name: warehouse_id
+          in: path
+          description: The Warehouse ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - Warehouse
+      summary: Update a Warehouse
+      description: |
+        Use this method to change aspects of an existing warehouse.
+
+        These entities are read only :
+        - id
+        - whse_num
+        - site_id
+      operationId: update-a-warehouse
+      parameters:
+        - name: warehouse_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'null'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Warehouse'
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /locations:
+    get:
+      tags:
+        - Location
+      summary: List Locations
+      description: List Locations
+      operationId: list-locations
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListLocationsResponse'
+    post:
+      tags:
+        - Location
+      summary: Create Location
+      description: Create a new location by sending a POST request.
+      operationId: create-location
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocationRequest'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+  '/locations/{location_id}':
+    get:
+      tags:
+        - Location
+      summary: Read Location by ID
+      description: Read location by ID
+      operationId: location
+      parameters:
+        - name: location_id
+          in: path
+          description: The location ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '404':
+          description: ''
+    delete:
+      tags:
+        - Location
+      summary: Delete a Location
+      description: |-
+        This method gives a site the option to delete one Location from the Locations list if
+
+           - Location exists in Item Location / Lot Location
+
+        This item will be immediately removed. This action is not reversible.
+      operationId: 5e831e59dea6bbe8a430f7bd
+      parameters:
+        - name: location_id
+          in: path
+          description: The Location ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - Location
+      summary: Update Location
+      description: Update Location
+      operationId: update-location
+      parameters:
+        - name: location_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLocationRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /items:
+    post:
+      tags:
+        - Item
+      summary: Create Item
+      description: This method gives a Site admin the option to create an Item for a given Site.
+      operationId: create-item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateItemRequest'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - Item
+      summary: List Items
+      description: List Items
+      operationId: list-items
+      responses:
+        '200':
+          description: 'null'
+  /customers:
+    post:
+      tags:
+        - Customer
+      summary: Create Customer
+      description: This method gives a Site admin the option to create a Customer for a given Site.
+      operationId: create-customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerRequest'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    get:
+      tags:
+        - Customer
+      summary: List of Customers
+      description: List  of Customers
+      operationId: list-of-customers
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /productcodes:
+    post:
+      tags:
+        - ProductCode
+      summary: Create Product Code
+      description: Create Product Code
+      operationId: create-product-code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCode'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - ProductCode
+      summary: List Product Codes
+      description: List Product Codes
+      operationId: list-product-codes
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCode'
+  '/items/{item_id}':
+    delete:
+      tags:
+        - Item
+      summary: Delete an Item
+      description: "This method gives a site the option to delete one Item from the Items list.\n\nException : \n\n   - Item location exists with Qty On Hand not 0\n   - At least one PO Line /CO Line/Job/Job Material/Transfer Order exists for the Item\n\nThis Item will be immediately removed. This action is not reversible."
+      operationId: 5e82e36669167e6fe8436851
+      parameters:
+        - name: item_id
+          in: path
+          description: The Item ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    get:
+      tags:
+        - Item
+      summary: Read Item by ID
+      description: GET Item by ID
+      operationId: read-item-by-id
+      parameters:
+        - name: item_id
+          in: path
+          description: The Item ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+    post:
+      tags:
+        - Item
+      summary: Update  Item
+      description: |-
+        Use this method to change aspects of an existing employee.
+
+        These entities are read only :
+        - id
+        - item_num
+        - site_id
+      operationId: update-item
+      parameters:
+        - name: item_id
+          in: path
+          description: The Item ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: ''
+  '/productcodes/{productcode_id}':
+    get:
+      tags:
+        - ProductCode
+      summary: Read Product Code by ID
+      description: GET Product Code by ID
+      operationId: read-product-code-by-id
+      parameters:
+        - name: productcode_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCode'
+        '404':
+          description: ''
+    delete:
+      tags:
+        - ProductCode
+      summary: Delete Product Code
+      description: |-
+        This method gives a site the option to delete one Product Code from theProduct Code list.
+
+        Exception:
+
+        -  Product Code exists in Item
+
+        This Product Code will be immediately removed. This action is not reversible.
+      operationId: delete-product-code
+      parameters:
+        - name: productcode_id
+          in: path
+          description: The Product Code ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - ProductCode
+      summary: Update Product Code
+      description: Update Product Code
+      operationId: update-product-code
+      parameters:
+        - name: productcode_id
+          in: path
+          description: The Product Code ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /reasoncodes:
+    post:
+      tags:
+        - ReasonCode
+      summary: Create Reason Code
+      description: Create Reason Code
+      operationId: create-reason-code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReasonCode'
+      responses:
+        '201':
+          description: ''
+        '405':
+          description: ''
+    get:
+      tags:
+        - ReasonCode
+      summary: List Reason Codes
+      description: List Reason Codes
+      operationId: list-reason-codes
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReasonCode'
+  /purchaseorders:
+    get:
+      tags:
+        - PurchaseOrder
+      summary: List Purchase Order Lines
+      description: List Purchase Order Lines
+      operationId: list-purchase-order-lines
+      responses:
+        '200':
+          description: ''
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Login
+      description: Login to ICAPT to fetch bearer token
+      operationId: login
+      parameters:
+        - name: Content-type
+          in: header
+          required: true
+          schema:
+            type: multipart/form-data
+      requestBody:
+        content:
+          multipart/form-data:
+            example: 'site="site_name" name="username" password="password"'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              example:
+                token: token
+  '/reasoncodes/{reasoncode_id}':
+    get:
+      tags:
+        - ReasonCode
+      summary: Read Reason Code By ID
+      description: GET Reason Code by ID
+      operationId: read-reason-code-by-id
+      parameters:
+        - name: reasoncode_id
+          in: path
+          description: The Reason Code ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReasonCode'
+        '404':
+          description: ''
+    delete:
+      tags:
+        - ReasonCode
+      summary: Delete Reason Code
+      description: |-
+        This method gives a site the option to delete one Reason Code from the Reason Codes list.
+
+        Vendor will be immediately removed. This action is not reversible.
+      operationId: delete-reason-code
+      parameters:
+        - name: reasoncode_id
+          in: path
+          description: The Reason Code ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - ReasonCode
+      summary: Update Reason Code
+      description: Update Reason Code
+      operationId: update-reason-code
+      parameters:
+        - name: reasoncode_id
+          in: path
+          description: The Reason Code ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /workcenters:
+    post:
+      tags:
+        - WorkCenter
+      summary: Create Work Centers
+      description: Create Work Centers
+      operationId: create-work-centers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkCenter'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - WorkCenter
+      summary: List Work Centers
+      description: List of Work Centers
+      operationId: list-work-centers
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkCenter'
+  '/workcenters/{workcenter_id}':
+    get:
+      tags:
+        - WorkCenter
+      summary: Read Work Center by ID
+      description: GET Work Center by ID
+      operationId: read-work-center-by-id
+      parameters:
+        - name: workcenter_id
+          in: path
+          description: The Work Center ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkCenter'
+        '404':
+          description: ''
+    delete:
+      tags:
+        - WorkCenter
+      summary: Delete Work Center
+      description: |-
+        This method gives a site the option to delete one Location from the Locations list if
+
+           - Work Center exists in any Job Route
+
+        This item will be immediately removed. This action is not reversible.
+      operationId: delete-work-center
+      parameters:
+        - name: workcenter_id
+          in: path
+          description: The Work Center ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - WorkCenter
+      summary: Update Work Center
+      description: Update Work Center
+      operationId: update-work-center
+      parameters:
+        - name: workcenter_id
+          in: path
+          description: The Work Center ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+  '/customers/{customer_id}':
+    get:
+      tags:
+        - Customer
+      summary: Read Customers by ID
+      description: GET Customer by ID
+      operationId: read-customers-by-id
+      parameters:
+        - name: customer_id
+          in: path
+          description: The Customer ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+    post:
+      tags:
+        - Customer
+      summary: Update Customer
+      description: |
+        Use this method to change aspects of an existing customer.
+
+        These entities are read only :
+        - id
+        - cust_num
+        - site_id
+      operationId: update-customer
+      parameters:
+        - name: customer_id
+          in: path
+          description: |
+            The Customer ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+    delete:
+      tags:
+        - Customer
+      summary: Delete a Customer
+      description: "This method gives a site the option to delete one Customer from the Customers list.\n\nException: \n\n   - Customer exists in Customer Order Item\n\nThis Customer will be immediately removed. This action is not reversible."
+      operationId: delete-a-customer
+      parameters:
+        - name: customer_id
+          in: path
+          description: The Customer ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+  /uoms:
+    post:
+      tags:
+        - UOM
+      summary: Create UOM
+      description: Create UOM
+      operationId: create-uom
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUOMRequest'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - UOM
+      summary: List UOM
+      description: List of UOM
+      operationId: list-uom
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UOM'
+  '/uoms/{uom_id}':
+    get:
+      tags:
+        - UOM
+      summary: Read UOM by ID
+      description: GET UOM by ID
+      operationId: read-uom-by-id
+      parameters:
+        - name: uom_id
+          in: path
+          description: The UOM ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UOM'
+        '404':
+          description: ''
+    delete:
+      tags:
+        - UOM
+      summary: Delete UOM
+      description: "This method gives a site the option to delete one UOM from the UOM list.\n\nException : \n\n   - Purchase Order Item, Customer Order Item, Transfer Order, Job Route, Job or Material exists for the UOM\n\nThis UOM will be immediately removed. This action is not reversible."
+      operationId: delete-uom
+      parameters:
+        - name: uom_id
+          in: path
+          description: The UOM ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - UOM
+      summary: Update  UOM
+      description: Update  UOM
+      operationId: update-uom
+      parameters:
+        - name: uom_id
+          in: path
+          description: The UOM ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /tasks:
+    post:
+      tags:
+        - Task
+      summary: Create Tasks
+      description: Create Tasks
+      operationId: create-tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - Task
+      summary: List Tasks
+      description: List of Tasks
+      operationId: list-tasks
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  '/tasks/{task_id}':
+    get:
+      tags:
+        - Task
+      summary: Read Tasks by ID
+      description: GET Tasks by ID
+      operationId: read-tasks-by-id
+      parameters:
+        - name: task_id
+          in: path
+          description: The Task ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: ''
+    delete:
+      tags:
+        - Task
+      summary: Delete Task
+      description: |-
+        This method gives a site the option to delete one Task from the Task list.
+
+        Task will be immediately removed. This action is not reversible.
+      operationId: delete-task
+      parameters:
+        - name: task_id
+          in: path
+          description: The Task ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - Task
+      summary: Update Task
+      description: Update Task
+      operationId: update-task
+      parameters:
+        - name: task_id
+          in: path
+          description: The Task ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /vendors:
+    post:
+      tags:
+        - Vendor
+      summary: Create Vendors
+      description: Create Vendors
+      operationId: create-vendors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - Vendor
+      summary: List Vendors
+      description: List of Vendors
+      operationId: list-vendors
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+  '/vendors/{vendor_id}':
+    get:
+      tags:
+        - Vendor
+      summary: Read Vendors by ID
+      description: GET Vendors by ID
+      operationId: read-vendors-by-id
+      parameters:
+        - name: vendor_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+        '404':
+          description: Vendor not found.
+    delete:
+      tags:
+        - Vendor
+      summary: Delete Vendor
+      description: |-
+        This method gives a site the option to delete one Vendor from the Vendors list if
+
+        - Purchase Order exists for this Vendor
+
+        Vendor will be immediately removed. This action is not reversible.
+      operationId: delete-vendor
+      parameters:
+        - name: vendor_id
+          in: path
+          description: The Vendor ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - Vendor
+      summary: Update Vendor
+      description: Update Vendor
+      operationId: update-vendor
+      parameters:
+        - name: vendor_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /itemlocs:
+    post:
+      tags:
+        - ItemLocation
+      summary: Create Item Locations
+      description: This method gives a Site admin the option to create an Item Location for a given Site.
+      operationId: create-item-locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateItemLocationRequest'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - ItemLocation
+      summary: List Item Locations
+      description: List of Item Locations
+      operationId: list-item-locations
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemLocation'
+  '/itemlocs/{itemloc_id}':
+    get:
+      tags:
+        - ItemLocation
+      summary: Read Item Locations by ID
+      description: GET Item  Locations by ID
+      operationId: read-item-locations-by-id
+      parameters:
+        - name: itemloc_id
+          in: path
+          description: The Item Location ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemLocation'
+        '404':
+          description: Item Location not Found
+    delete:
+      tags:
+        - ItemLocation
+      summary: Delete Item Location
+      description: |-
+        This method gives a site the option to delete one Item Location from the Item Locations list.
+
+        Exception:
+
+        -  Qty On Hand is not 0
+
+        This Item Location will be immediately removed. This action is not reversible.
+      operationId: delete-item-location
+      parameters:
+        - name: itemloc_id
+          in: path
+          description: The Item Location ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - ItemLocation
+      summary: Update Item Location
+      description: |-
+        Update Item Location
+
+        The following properties are read only:
+        -id
+        -whse_num
+        -loc_num
+        -item_num
+        -site_id
+      operationId: update-item-location
+      parameters:
+        - name: itemloc_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+  /lotlocs:
+    post:
+      tags:
+        - LotLocation
+      summary: Create Lot Locations
+      description: Create Lot Locations
+      operationId: create-lot-locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLotLocationRequest'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - LotLocation
+      summary: List Lot Locations
+      description: List of Lot Locations
+      operationId: list-lot-locations
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LotLocation'
+  '/lotlocs/{lotloc_id}':
+    get:
+      tags:
+        - LotLocation
+      summary: Read Lot Locations by ID
+      description: GET Lot Locations by ID
+      operationId: read-lot-locations-by-id
+      parameters:
+        - name: lotloc_id
+          in: path
+          description: The Lot Location ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LotLocation'
+    delete:
+      tags:
+        - LotLocation
+      summary: Delete Lot Location
+      description: |-
+        This method gives a site the option to delete one Lot Location from the Lot Locations list.
+
+        Exception:
+
+        -  Qty On Hand is not 0
+
+        This Lot Location will be immediately removed. This action is not reversible.
+      operationId: delete-lot-location
+      parameters:
+        - name: lotloc_id
+          in: path
+          description: The Lot Location ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - LotLocation
+      summary: Update Lot Location
+      description: Update Lot Location
+      operationId: update-lot-location
+      parameters:
+        - name: lotloc_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+  /employees:
+    post:
+      tags:
+        - Employee
+      summary: Create Employees
+      description: Create Employees
+      operationId: create-employees
+      requestBody:
+        description: Request Field
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeRequest'
+            example:
+              emp_num: string
+              emp_name: string
+              shift: 0
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - Employee
+      summary: List Employees
+      description: List of Employees
+      operationId: list-employees
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+  '/employees/{employee_id}':
+    get:
+      tags:
+        - Employee
+      summary: Read Employees by ID
+      description: GET Employees by ID
+      operationId: read-employees-by-id
+      parameters:
+        - name: employee_id
+          in: path
+          description: The Employee ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+    post:
+      tags:
+        - Employee
+      summary: Update  Employee
+      description: |
+        Use this method to change aspects of an existing employee.
+
+        These entities are read only :
+        - id
+        - emp_num
+        - site_id
+      operationId: update-employee
+      parameters:
+        - name: employee_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+    delete:
+      tags:
+        - Employee
+      summary: Delete an Employee
+      description: |-
+        This method gives a site the option to delete one Employee from the Employees list.
+
+        Exception:
+
+           - Employee exists as a Counter
+
+        This Employee will be immediately removed. This action is not reversible.
+      operationId: delete-an-employee
+      parameters:
+        - name: employee_id
+          in: path
+          description: The Employee ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+  /machines:
+    post:
+      tags:
+        - Machine
+      summary: Create Machines
+      description: This method gives a Site admin the option to create a Machine for a given Site.
+      operationId: create-machines
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMachineRequest'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - Machine
+      summary: List Machines
+      description: List of Machines
+      operationId: list-machines
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Machine'
+  '/machines/{machine_id}':
+    get:
+      tags:
+        - Machine
+      summary: Read Machines by  ID
+      description: GET  Machines by ID
+      operationId: read-machines-by-id
+      parameters:
+        - name: machine_id
+          in: path
+          description: The Machine ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Machine'
+        '404':
+          description: Machine not Found
+    delete:
+      tags:
+        - Machine
+      summary: Delete Machine
+      description: |-
+        This method gives a site the option to delete one Machine from the Machines list.
+
+        Machine will be immediately removed. This action is not reversible.
+      operationId: delete-machine
+      parameters:
+        - name: machine_id
+          in: path
+          description: The Machine ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - Machine
+      summary: Update Machine
+      description: Update Machine
+      operationId: update-machine
+      parameters:
+        - name: machine_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+  /customerorders:
+    post:
+      tags:
+        - CustomerOrder
+      summary: Create Customers Orders
+      description: Create Customer Orders
+      operationId: create-customers-orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerOrder'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - CustomerOrder
+      summary: List Customer Orders
+      description: List of Customer Orders
+      operationId: list-customer-orders
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerOrder'
+  '/customerorders/{customerorder_id}':
+    get:
+      tags:
+        - CustomerOrder
+      summary: Read Customer Orders by ID
+      description: GET Customer Order by ID
+      operationId: read-customer-orders-by-id
+      parameters:
+        - name: customerorder_id
+          in: path
+          description: The Customer Order ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerOrder'
+        '404':
+          description: Customer Order not found.
+    delete:
+      tags:
+        - CustomerOrder
+      summary: Delete a Customer Order Item
+      description: "This method gives a site the option to delete one Customer Order Item from the Customer Order Items list. \n\nException:\n\n- Customer Order Item status is Completed\n- Qty Shipped or Qty Returned is not 0\n- Material Transaction exists for Customer Order Item\n\nCustomer Order Item will be immediately removed. This action is not reversible."
+      operationId: delete-a-customer-order-item
+      parameters:
+        - name: customerorder_id
+          in: path
+          description: The Customer Order Item ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+  /transferorders:
+    post:
+      tags:
+        - TransferOrder
+      summary: Create Transfer Orders
+      description: Create transfer Orders
+      operationId: create-transfer-orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferOrder'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - TransferOrder
+      summary: List Transfer Orders
+      description: List of Transfer Orders
+      operationId: list-transfer-orders
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferOrder'
+  '/transferorders/{transorder_id}':
+    get:
+      tags:
+        - TransferOrder
+      summary: Read Transfer Order by ID
+      description: GET Transfer Order by ID
+      operationId: read-transfer-order-by-id
+      parameters:
+        - name: transorder_id
+          in: path
+          description: The Transfer Order ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferOrder'
+        '404':
+          description: ''
+    delete:
+      tags:
+        - TransferOrder
+      summary: Delete Transfer Order
+      description: "This method gives a site the option to delete one Transfer Order from the Transfer Orders list. \n\nExcept:\n\n- Transfer Order status is Completed\n- Qty Shipped, Qty Transferred or Qty Loss is not 0\n- Material Transaction exists for Transfer Order\n\nTransfer Order will be immediately removed. This action is not reversible."
+      operationId: delete-transfer-order
+      parameters:
+        - name: transorder_id
+          in: path
+          description: The Transfer Order ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - TransferOrder
+      summary: Update Transfer Order
+      description: Update Transfer Order
+      operationId: update-transfer-order
+      parameters:
+        - name: transorder_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+  /joborders:
+    post:
+      tags:
+        - JobOrder
+      summary: Create Job Orders
+      description: Create Job Order
+      operationId: create-job-orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobOrder'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - JobOrder
+      summary: List Job Orders
+      description: List of Job Orders
+      operationId: list-job-orders
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobOrder'
+  '/joborders/{joborder_id}':
+    get:
+      tags:
+        - JobOrder
+      summary: Read Job Order by ID
+      description: GET Job Order by ID
+      operationId: read-job-order-by-id
+      parameters:
+        - name: joborder_id
+          in: path
+          description: The Job Order ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobOrder'
+    delete:
+      tags:
+        - JobOrder
+      summary: Delete Job Order
+      description: "This method gives a site the option to delete one Job Order from the Job Orders list.\n\nException: \n\n- Job Status is Completed\n- Qty Completed or Qty Scrapped is not 0 \n- At least one Material Transaction exists for this Job Order\n\nJob Order will be immediately removed. This action is not reversible."
+      operationId: delete-job-order
+      parameters:
+        - name: joborder_id
+          in: path
+          description: The Job Order ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - JobOrder
+      summary: Update Job Order
+      description: Update Job Order
+      operationId: update-job-order
+      parameters:
+        - name: joborder_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+  /jobroutes:
+    post:
+      tags:
+        - JobRoute
+      summary: Create Job Route
+      description: Create Job Route
+      operationId: create-job-route
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobRoute'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - JobRoute
+      summary: List Job Routes
+      description: List of Job Routes
+      operationId: list-job-routes
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobRoute'
+  '/jobroutes/{jobroute_id}':
+    get:
+      tags:
+        - JobRoute
+      summary: Read Job Route by ID
+      description: GET Job Route by ID
+      operationId: read-job-route-by-id
+      parameters:
+        - name: jobroute_id
+          in: path
+          description: The Job Route ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobRoute'
+    delete:
+      tags:
+        - JobRoute
+      summary: Delete Job Route
+      description: "This method gives a site the option to delete one Job Route from the Job Routes list. \n\nException:\n\n- Job status for this Job Route is Completed\n- Qty Moved, Qty Completed, Qty Received or Qty Scrapped is not 0\n- Material Transaction exists for this Job Route\n\nJob Route will be immediately removed. This action is not reversible."
+      operationId: delete-job-route
+      parameters:
+        - name: jobroute_id
+          in: path
+          description: The Job Route ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - JobRoute
+      summary: Update Job Route
+      description: Update Job Route
+      operationId: update-job-route
+      parameters:
+        - name: jobroute_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+  /jobmaterials:
+    post:
+      tags:
+        - JobMaterial
+      summary: Create Job Material
+      description: Create Job Material
+      operationId: create-job-material
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobMatlRequest'
+      responses:
+        '201':
+          description: ''
+    get:
+      tags:
+        - JobMaterial
+      summary: List Job Materials
+      description: List of Job Materials
+      operationId: list-job-materials
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobMaterial'
+  '/jobmaterials/{jobmaterial_id}':
+    get:
+      tags:
+        - JobMaterial
+      summary: Read Job Material by ID
+      description: GET Job Material by ID
+      operationId: read-job-material-by-id
+      parameters:
+        - name: jobmaterial_id
+          in: path
+          description: The Job Material ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobMaterial'
+    delete:
+      tags:
+        - JobMaterial
+      summary: Delete Job Material
+      description: "This method gives a site the option to delete one Job Material from the  Job Materials list if\n\n1. Job Status is Completed\n2. Qty Moved, Completed, Received and Scrapped is not 0 \n3. At least one Material Transaction exists for this Job Material\n\nJob Material will be immediately removed. This action is not reversible."
+      operationId: delete-job-material
+      parameters:
+        - name: jobmaterial_id
+          in: path
+          description: The Job Material ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: ''
+    post:
+      tags:
+        - JobMaterial
+      summary: Update Job Material
+      description: |-
+        Use this method to change aspects of an existing job material.
+
+        These entities are read only :
+        - id
+        - job_num
+        -oper_num
+        -site_id
+        -qty_issued
+
+        Not allow to update if:
+        - If status = closed
+      operationId: update-job-material
+      parameters:
+        - name: jobmaterial_id
+          in: path
+          description: The Job Material ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobMaterial'
+        '404':
+          description: ''
+        '422':
+          description: ''
+  /matltrans:
+    get:
+      tags:
+        - Material Transactions
+      summary: Material Transaction
+      description: List of Material Transaction
+      operationId: material-transaction
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialTransaction'
+  /jobtrans:
+    get:
+      tags:
+        - JobTransaction
+      summary: Job Transaction
+      description: List of  History Job transaction
+      operationId: job-transaction
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTransaction'
+  /machinetrans:
+    get:
+      tags:
+        - MachineTransaction
+      summary: Machine Transaction
+      description: List of History Machine Transaction
+      operationId: machine-transaction
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MachineTransaction'
+  '/transfrerlines/{transferline_id}':
+    delete:
+      tags:
+        - TransferLine
+      summary: Delete a Transfer Order Line
+      description: "This method gives a site the option to delete one Transfer Order Line from the Transfer Order Lines list. \n\nException:\n\n- Transfer Order Line status is Completed\n- Qty Shipped , Qty Received or Qty Loss is not 0\n- Material Transaction exists for this Transfer Order Line\n\nTransfer Order Line will be immediately removed. This action is not reversible."
+      operationId: delete-a-transfer-order-line
+      parameters:
+        - name: transferline_id
+          in: path
+          description: Transfer Order Line
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: ''
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cust_num:
+          type: string
+        cust_name:
+          type: string
+        cust_status:
+          type: boolean
+        site_id:
+          type: string
+        created_by: {}
+        modified_by: {}
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        cust_num: string
+        cust_name: string
+        cust_status: false
+        site_id: string
+        created_date: string
+        modified_date: string
+    MaterialTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        trans_num:
+          type: integer
+        trans_type:
+          type: string
+        trans_date:
+          type: string
+        item_num:
+          type: string
+        vend_do:
+          type: string
+        vendor_lot:
+          type: string
+        uom:
+          type: string
+        qty:
+          type: string
+        whse_num:
+          type: string
+        loc_num:
+          type: string
+        lot_num:
+          type: string
+        vend_lot:
+          type: string
+        wc:
+          type: string
+        ref_num:
+          type: string
+        ref_line:
+          type: string
+        ref_release:
+          type: string
+        reason_code:
+          type: string
+        document_num:
+          type: string
+        site_id:
+          type: string
+        created_by: {}
+        created_date:
+          type: string
+        modified_date:
+          type: string
+      example:
+        id: 0
+        trans_num: 0
+        trans_type: string
+        trans_date: string
+        item_num: string
+        vend_do: string
+        vendor_lot: string
+        uom: string
+        qty: string
+        whse_num: string
+        loc_num: string
+        lot_num: string
+        vend_lot: string
+        wc: string
+        ref_num: string
+        ref_line: string
+        ref_release: string
+        reason_code: string
+        document_num: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    MachineTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        trans_num:
+          type: integer
+        trans_type:
+          type: string
+        res_id:
+          type: string
+        start_datetime:
+          type: string
+        end_datetime:
+          type: string
+        hour:
+          type: number
+        job_num:
+          type: string
+        oper_num:
+          type: string
+        item_num:
+          type: string
+        qty_completed:
+          type: string
+        qty_moved:
+          type: string
+        qty_scrapped:
+          type: string
+        reason_code:
+          type: string
+        whse_num:
+          type: string
+        loc_num:
+          type: string
+        lot_num:
+          type: string
+        start_by:
+          type: string
+        stop_by:
+          type: string
+        site_id:
+          type: string
+        created_by: {}
+        created_date:
+          type: string
+        modified_date:
+          type: string
+      example:
+        id: 0
+        trans_num: 0
+        trans_type: string
+        res_id: string
+        start_datetime: string
+        end_datetime: string
+        hour: 0.717536219069479
+        job_num: string
+        oper_num: string
+        item_num: string
+        qty_completed: string
+        qty_moved: string
+        qty_scrapped: string
+        reason_code: string
+        whse_num: string
+        loc_num: string
+        lot_num: string
+        start_by: string
+        stop_by: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    ReasonCode:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        reason_class:
+          type: string
+        reason_num:
+          type: string
+        reason_desc:
+          type: string
+        site_id:
+          type: string
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+          format: date
+        modified_date:
+          type: string
+          format: date
+        field_1:
+          type: string
+        field_2:
+          type: string
+        field_3:
+          type: string
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        reason_class: string
+        reason_num: string
+        reason_desc: string
+        site_id: string
+        created_date: '2020-03-30T00:00:00.0000000'
+        modified_date: '2020-03-30T00:00:00.0000000'
+    ListWarehousesResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Warehouse'
+    ListLocationsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Location'
+    PurchaseOrderLines:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        po_num:
+          type: string
+        po_line:
+          type: string
+        po_rel:
+          type: string
+        vend_do:
+          type: string
+        qty_ordered:
+          type: number
+        qty_ordered_conv:
+          type: number
+        qty_received:
+          type: number
+        qty_picked:
+          type: number
+        qty_returned:
+          type: number
+        item_num:
+          type: string
+        item_desc:
+          type: string
+        vend_num:
+          type: string
+        vend_name:
+          type: string
+        notes:
+          type: string
+        whse_num:
+          type: string
+        uom:
+          type: string
+        due_date:
+          type: string
+        rel_status:
+          type: string
+        site_id:
+          type: string
+        created_by: {}
+        modified_by: {}
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        po_num: string
+        po_line: string
+        po_rel: string
+        vend_do: string
+        qty_ordered: 0.666827221226756
+        qty_ordered_conv: 0.650404634723636
+        qty_received: 0.783045740915347
+        qty_picked: 0.898952667056966
+        qty_returned: 0.58214399000844
+        item_num: string
+        item_desc: string
+        vend_num: string
+        vend_name: string
+        notes: string
+        whse_num: string
+        uom: string
+        due_date: string
+        rel_status: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    PurchaseOrderLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        po_num:
+          type: string
+        po_line:
+          type: string
+        po_rel:
+          type: string
+        vend_do:
+          type: string
+        qty_ordered:
+          type: number
+        qty_ordered_conv:
+          type: number
+        qty_received:
+          type: number
+        qty_picked:
+          type: number
+        qty_returned:
+          type: number
+        item_num:
+          type: string
+        item_desc:
+          type: string
+        vend_num:
+          type: string
+        vend_name:
+          type: string
+        notes:
+          type: string
+        whse_num:
+          type: string
+        uom:
+          type: string
+        due_date:
+          type: string
+        rel_status:
+          type: string
+        site_id:
+          type: string
+        created_by: {}
+        modified_by: {}
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        po_num: string
+        po_line: string
+        po_rel: string
+        vend_do: string
+        qty_ordered: 0.666827221226756
+        qty_ordered_conv: 0.650404634723636
+        qty_received: 0.783045740915347
+        qty_picked: 0.898952667056966
+        qty_returned: 0.58214399000844
+        item_num: string
+        item_desc: string
+        vend_num: string
+        vend_name: string
+        notes: string
+        whse_num: string
+        uom: string
+        due_date: string
+        rel_status: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    CustomerOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        co_num:
+          type: string
+        co_line:
+          type: string
+        co_rel:
+          type: string
+        qty_released:
+          type: number
+        qty_released_conv:
+          type: number
+        cust_num:
+          type: string
+        add_num:
+          type: string
+        due_date:
+          type: string
+        do_num:
+          type: string
+        qty_ordered:
+          type: number
+        qty_ordered_conv:
+          type: number
+        qty_shipped:
+          type: number
+        qty_returned:
+          type: number
+        item_num:
+          type: string
+        item_desc:
+          type: string
+        whse_num:
+          type: string
+        uom:
+          type: string
+        rel_status:
+          type: string
+        site_id:
+          type: string
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        co_num: string
+        co_line: string
+        co_rel: string
+        qty_released: 0.0793732468749582
+        qty_released_conv: 0.501683902659813
+        cust_num: string
+        add_num: string
+        due_date: string
+        do_num: string
+        qty_ordered: 0.4024194960378
+        qty_ordered_conv: 0.641738684444383
+        qty_shipped: 0.0718202372929992
+        qty_returned: 0.726180680002601
+        item_num: string
+        item_desc: string
+        whse_num: string
+        uom: string
+        rel_status: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    CreateUOMRequest:
+      required:
+        - uom_num
+        - rounding
+      type: object
+      properties:
+        uom_num:
+          type: string
+        uom_desc:
+          type: string
+        rounding:
+          type: string
+        field_1:
+          type: string
+        field_2:
+          type: string
+        field_3:
+          type: string
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8:
+          type: string
+        field_9:
+          type: string
+        field_10:
+          type: string
+    CreateCustomerRequest:
+      required:
+        - cust_num
+        - cust_name
+        - cust_status
+      type: object
+      properties:
+        cust_num:
+          type: string
+          description: Customer Num
+        cust_name:
+          type: string
+          description: Name of Customer
+        cust_status:
+          type: boolean
+          description: 'Customer Status. 0 = inactive, 1 = active'
+    CreateLocationRequest:
+      required:
+        - whse_num
+        - loc_num
+        - loc_name
+      type: object
+      properties:
+        loc_num:
+          type: string
+          description: Location Number
+        whse_num:
+          type: string
+          description: Warehouse Number. Must exist in Warehouses List
+        loc_name:
+          type: string
+          description: Location Name
+        loc_type:
+          enum:
+            - S
+            - T
+            - Q
+          type: string
+          description: 'Location Type - S, T, Q for Stock, Transit or Quarantine'
+    CreateCustomerOrderRequest:
+      required:
+        - co_num
+        - co_line
+        - co_rel
+        - cust_num
+        - item_num
+        - whse_num
+      type: object
+      properties:
+        co_num:
+          type: string
+        co_line:
+          type: string
+        co_rel:
+          type: string
+        qty_released:
+          type: number
+        qty_released_conv:
+          type: number
+        cust_num:
+          type: string
+          description: Customer number. Must exist in Customers List
+        add_num:
+          type: string
+        due_date:
+          type: string
+        do_num:
+          type: string
+        qty_ordered:
+          type: number
+        qty_ordered_conv:
+          type: number
+        qty_shipped:
+          type: number
+        qty_returned:
+          type: number
+        item_num:
+          type: string
+          description: Item number. Must exist in Items List
+        item_desc:
+          type: string
+        whse_num:
+          type: string
+          description: Warehouse number. Must exist in Warehouses List
+        uom:
+          type: string
+          description: UOM number. Must exist in UOMs List
+        rel_status:
+          type: string
+    CreateMachineRequest:
+      required:
+        - res_id
+        - res_desc
+        - res_status
+      type: object
+      properties:
+        res_id:
+          type: string
+        res_desc:
+          type: string
+          description: Machine description
+        res_status:
+          type: boolean
+    CreateLotLocationRequest:
+      required:
+        - whse_num
+        - item_num
+        - lot_num
+        - qty_on_hand
+        - uom
+        - qty_on_reserved
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        whse_num:
+          type: string
+          description: Warehouse number. Must exist in Warehouses List
+        loc_num:
+          type: string
+        item_num:
+          type: string
+          description: Item number. Must exist in Items List
+        lot_num:
+          type: string
+          description: Lot number. Must exist in Lot Locations List
+        qty_on_hand:
+          type: number
+        uom:
+          type: string
+          description: UOM number. Must exist in UOMs List
+        qty_on_rsvd:
+          type: number
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Location ID
+          readOnly: true
+        loc_num:
+          type: string
+          description: Location Number
+        whse_num:
+          type: string
+          description: Warehouse Number. Refer to Warehouses List
+        loc_name:
+          type: string
+          description: Location Name
+        loc_type:
+          type: string
+          description: Location Type
+        site_id:
+          type: string
+          description: Site ID
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      description: Location Data
+      example:
+        id: 0
+        loc_num: string
+        whse_num: string
+        loc_name: string
+        loc_type: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    CreateItemLocationRequest:
+      required:
+        - whse_num
+        - loc_num
+        - item_num
+        - qty_on_hand
+        - uom
+        - qty_on_rsvd
+      type: object
+      properties:
+        whse_num:
+          type: string
+          description: Warehouse Number. Must exist in Warehouses List.
+        loc_num:
+          type: string
+          description: Location Number. Must exist in Locations List
+        item_num:
+          type: string
+          description: Item Number. Must exist in Items List
+        qty_on_hand:
+          type: number
+          description: Quantity on Hand
+        uom:
+          type: string
+          description: UOM Number. Must exist in UOMs Listt
+        qty_on_rsvd:
+          type: number
+          description: Quantity on Reserve
+    CreateItemRequest:
+      required:
+        - item_num
+        - item_desc
+        - uom
+        - product_code
+        - lot_tracked
+        - unit_weight
+        - item_status
+      type: object
+      properties:
+        item_num:
+          type: string
+          description: Item Number. Must be unique
+        item_desc:
+          type: string
+          description: Item description
+        uom:
+          type: string
+          description: UOM number. Must exist in UOMs List
+        product_code:
+          type: string
+          description: Product Code. Must exist in Product Codes List
+        lot_tracked:
+          type: boolean
+          description: Is Item Lot Tracked?
+        unit_weight:
+          type: number
+        item_status:
+          type: boolean
+          description: Is Item Active?
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        task_name:
+          type: string
+        task_desc:
+          type: string
+        site_id:
+          type: string
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+      example:
+        id: 0
+        task_name: string
+        task_desc: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Employee ID
+          readOnly: true
+        emp_num:
+          type: string
+          description: Employee Number
+        emp_name:
+          type: string
+          description: Employee Name
+        shift:
+          type: integer
+          description: Shift
+        site_id:
+          type: string
+          description: Site ID
+          readOnly: true
+        created_by: {}
+        modified_by: {}
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        emp_num: string
+        emp_name: string
+        shift: 0
+        site_id: string
+        created_date: string
+        modified_date: string
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Item ID
+          readOnly: true
+        item_num:
+          type: string
+          description: Item Number
+        item_desc:
+          type: string
+          description: Item Description
+        uom:
+          type: string
+          description: UOM
+        product_code:
+          type: string
+          description: Product Code
+        lot_tracked:
+          type: boolean
+          description: Lot Tracked
+        unit_weight:
+          type: number
+          description: Unit seight
+        item_status:
+          type: boolean
+          description: Item status
+        site_id:
+          type: string
+          description: Site ID
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        item_num: string
+        item_desc: string
+        uom: string
+        product_code: string
+        lot_tracked: false
+        unit_weight: 0.450192481868521
+        item_status: false
+        site_id: string
+        created_date: string
+        modified_date: string
+    ItemLocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        whse_num:
+          type: string
+          description: Warehouse Number. Must exist in Warehouses List
+        loc_num:
+          type: string
+          description: Location Number. Must exist in Locations List
+        item_num:
+          type: string
+          description: Item Number. Must exist in Items List
+        qty_on_hand:
+          type: number
+          description: Qty on hand
+        uom:
+          type: string
+          description: UOM. Must exist in UOMs List
+        qty_on_rsvd:
+          type: number
+          description: Qty on reserve
+        site_id:
+          type: string
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        whse_num: string
+        loc_num: string
+        item_num: string
+        qty_on_hand: 0.123124045721771
+        uom: string
+        qty_on_rsvd: 0.910289065018264
+        site_id: string
+        created_date: string
+        modified_date: string
+    Machine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        res_id:
+          type: string
+          description: Machine ID
+        res_desc:
+          type: string
+          description: Machine description
+        res_status:
+          type: boolean
+          description: Machine status
+        site_id:
+          type: string
+          description: Site ID
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        res_id: string
+        res_desc: string
+        res_status: false
+        site_id: string
+        created_date: string
+        modified_date: string
+    Warehouse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        whse_num:
+          type: string
+          description: Warehouse number
+        whse_name:
+          type: string
+          description: Warehouse name
+        whse_address:
+          type: string
+          description: Warehouse address
+        site_id:
+          type: string
+          description: Site ID
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+    WorkCenter:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Work Center ID
+          readOnly: true
+        wc_num:
+          type: string
+          description: Work Center number
+        wc_desc:
+          type: string
+          description: Work Center description
+        wc_status:
+          type: string
+          description: Work Center status
+        site_id:
+          type: string
+          description: Site ID
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        wc_num: string
+        wc_desc: string
+        wc_status: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        vend_num:
+          type: string
+          description: Vendor Number
+        vend_name:
+          type: string
+          description: Vendor Name
+        vend_status:
+          type: boolean
+          description: Vendor Status
+        site_id:
+          type: string
+          description: Site ID
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        vend_num: string
+        vend_name: string
+        vend_status: false
+        site_id: string
+        created_date: string
+        modified_date: string
+    TransferOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Transder Order ID
+          readOnly: true
+        trn_num:
+          type: string
+          description: Transfer Order number
+        from_whse:
+          type: string
+          description: Warehouse Number (From). Must exist in Warehouses List
+        to_whse:
+          type: string
+          description: Warehouse Number (To). Must exist in Warehouses List
+        stat:
+          type: string
+          description: Status
+        from_site:
+          type: string
+        to_site:
+          type: string
+        trn_loc:
+          type: string
+          description: Transfer Location. Must exist in Locations List
+        driver_name:
+          type: string
+          description: "Driver's Name"
+        schedule_receive_date:
+          type: string
+          description: Scheduled received date
+        schedule_ship_date:
+          type: string
+          description: Scheduled shipping date
+        pickup_date:
+          type: string
+          description: Pickup date
+        driver_contact:
+          type: string
+        vehicle_num:
+          type: string
+          description: Vehicle number
+        site_id:
+          type: string
+          description: Site ID
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        trn_num: string
+        from_whse: string
+        to_whse: string
+        stat: string
+        from_site: string
+        to_site: string
+        trn_loc: string
+        driver_name: string
+        schedule_receive_date: string
+        schedule_ship_date: string
+        pickup_date: string
+        driver_contact: string
+        vehicle_num: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    JobOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Job ID
+          readOnly: true
+        job_num:
+          type: string
+          description: Job number
+        whse_num:
+          type: string
+          description: Warehouse number
+        uom:
+          type: string
+          description: UOM number
+        job_date:
+          type: string
+          description: Job date
+        start_date_plan:
+          type: string
+          description: Planned start date
+        end_date_plan:
+          type: string
+          description: Planned end date
+        cust_num:
+          type: string
+          description: Customer number
+        item_num:
+          type: string
+          description: Item number
+        qty_released:
+          type: number
+          description: Qty released
+        qty_completed:
+          type: number
+          description: Qty completed
+        qty_scrapped:
+          type: number
+          description: Qty scrapped
+        job_status:
+          type: string
+          description: Job status
+        notes:
+          type: string
+        site_id:
+          type: string
+          description: Site ID
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        job_num: string
+        whse_num: string
+        uom: string
+        job_date: string
+        start_date_plan: string
+        end_date_plan: string
+        cust_num: string
+        item_num: string
+        qty_released: 0.386367611689434
+        qty_completed: 0.554575466208115
+        qty_scrapped: 0.655315075452746
+        job_status: string
+        notes: string
+        site_id: string
+        created_by: string
+        modified_by: string
+        created_date: string
+        modified_date: string
+    JobRoute:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        job_num:
+          type: string
+          description: Job number
+        oper_num:
+          type: string
+          description: Job Route number
+        oper_status:
+          type: string
+          description: Job Route status
+        qty_moved:
+          type: number
+          description: Qty moved
+        qty_completed:
+          type: number
+          description: Qty completed
+        qty_received:
+          type: number
+          description: Qty received
+        qty_scrapped:
+          type: number
+          description: Qty scrapped
+        notes:
+          type: string
+          description: Notes
+        wc_num:
+          type: string
+        site_id:
+          type: string
+          description: Site ID
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        job_num: string
+        oper_num: string
+        oper_status: string
+        qty_moved: 0.509143701830941
+        qty_completed: 0.466866431322718
+        qty_received: 0.213148446410147
+        qty_scrapped: 0.421101113244757
+        notes: string
+        wc_num: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    JobTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        trans_num:
+          type: integer
+          description: Job Transaction Number
+        job_type:
+          type: string
+          description: Job type
+        start_datetime:
+          type: string
+        end_datetime:
+          type: string
+        emp_num:
+          type: string
+          description: Employee number
+        job_num:
+          type: string
+          description: Job number
+        oper_num:
+          type: string
+          description: Job Route number
+        task:
+          type: string
+        hour:
+          type: number
+        qty_completed:
+          type: number
+          description: Qty completed
+        qty_moved:
+          type: number
+          description: Qty moved
+        qty_scrapped:
+          type: number
+          description: Qty scrapped
+        uom:
+          type: string
+          description: UOM
+        whse_num:
+          type: string
+        loc_num:
+          type: string
+        lot_num:
+          type: string
+        resource_id:
+          type: string
+        reason_code:
+          type: string
+        document_num:
+          type: string
+        site_id:
+          type: string
+        created_by:
+          type: string
+        created_date:
+          type: string
+          format: datetime
+        modified_by:
+          type: string
+        modified_date:
+          type: string
+          format: datetime
+      example:
+        id: 0
+        trans_num: 0
+        job_type: string
+        start_datetime: string
+        end_datetime: string
+        emp_num: string
+        job_num: string
+        oper_num: string
+        task: string
+        hour: 0.927221834568217
+        qty_completed: 0.127471678190928
+        qty_moved: 0.281043236168493
+        qty_scrapped: 0.875879589195607
+        uom: string
+        whse_num: string
+        loc_num: string
+        lot_num: string
+        resource_id: string
+        reason_code: string
+        document_num: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    LotLocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        whse_num:
+          type: string
+        loc_num:
+          type: string
+        item_num:
+          type: string
+        lot_num:
+          type: string
+        qty_on_hand:
+          type: number
+        uom:
+          type: string
+        qty_on_rsvd:
+          type: number
+        site_id:
+          type: string
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        whse_mum: string
+        loc_num: string
+        item_num: string
+        lot_num: string
+        qty_on_hand: 0.59435164562046
+        uom: string
+        qty_on_rsvd: 0.751666105267533
+        site_id: string
+        created_date: string
+        modified_date: string
+    UOM:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: UOM ID
+          readOnly: true
+        uom_num:
+          type: string
+          description: UOM number
+        uom_desc:
+          type: string
+          description: UOM description
+        rounding:
+          type: string
+          description: UOM rounding
+        site_id:
+          type: string
+          description: Site ID
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        uom_num: string
+        uom_desc: string
+        rounding: string
+        site_id: string
+        created_date: string
+        modified_date: string
+    ProductCode:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Product Code ID
+          readOnly: true
+        product_code:
+          type: string
+          description: Product Code
+        product_desc:
+          type: string
+          description: Product description
+        product_status:
+          type: boolean
+        site_id:
+          type: string
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        product_code: string
+        product_desc: string
+        product_status: false
+        site_id: string
+        created_date: string
+        modified_date: string
+    JobMaterial:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Job Material ID
+          readOnly: true
+        job_num:
+          type: string
+          description: Job Number. Must exist in Jobs List
+        whse_num:
+          type: string
+          description: Warehouse Number. Must exist in Warehouses List
+        oper_num:
+          type: string
+          description: Job Route Number. Must exist in Job Routes List
+        sequence:
+          type: string
+          description: Job Sequence
+        matl_item:
+          type: string
+          description: Material Item Number. Must exist in Items List
+        uom:
+          type: string
+          description: UOM. Must exist in UOMs List
+        matl_desc:
+          type: string
+          description: Material description
+        qty_per:
+          type: number
+          description: Qty Per
+        scrap_factor:
+          type: number
+          description: Scrap Factor
+        qty_required:
+          type: number
+          description: Qty Required
+        qty_issued:
+          type: number
+          description: Qty Issued
+        site_id:
+          type: string
+          description: Site ID
+          readOnly: true
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        created_date:
+          type: string
+        modified_date:
+          type: string
+        field_1: {}
+        field_2: {}
+        field_3: {}
+        field_4: {}
+        field_5: {}
+        field_6: {}
+        field_7: {}
+        field_8: {}
+        field_9: {}
+        field_10: {}
+      example:
+        id: 0
+        job_num: string
+        whse_num: string
+        oper_num: string
+        sequence: string
+        matl_item: string
+        uom: string
+        matl_desc: string
+        qty_per: 0.1
+        scrap_factor: 0.1
+        qty_required: 0.817075366431654
+        qty_issued: 0.384134391824688
+        site_id: string
+        created_date: string
+        modified_date: string
+    CreateJobMatlRequest:
+      required:
+        - job_num
+        - whse_num
+        - matl_item
+      type: object
+      properties:
+        job_num:
+          type: string
+        whse_num:
+          type: string
+          description: Warehouse Num. Must exist in Warehouses List
+        oper_num:
+          type: string
+        sequence:
+          type: string
+        matl_item:
+          type: string
+          description: Material Item Num. Must exist in Items List
+        uom:
+          type: string
+          description: UOM Num. Must exist in UOMs List
+        matl_desc:
+          type: string
+          description: Material Description
+        qty_per:
+          type: number
+        scrap_factor:
+          type: number
+        qty_required:
+          type: number
+        qty_issued:
+          type: number
+      example:
+        job_num: string
+        whse_num: string
+        oper_num: string
+        sequence: string
+        matl_item: string
+        uom: string
+        matl_desc: string
+        qty_per: 0.047669135185316
+        scrap_factor: 0.799746570138514
+        qty_required: 0.102033955319245
+        qty_issued: 0.874827985342591
+    UpdateCustomerOrderRequest:
+      type: object
+      properties:
+        qty_released:
+          type: number
+        qty_released_conv:
+          type: number
+        cust_num:
+          type: string
+          description: Customer number. Must exist in Customers List
+        add_num:
+          type: string
+        due_date:
+          type: string
+        do_num:
+          type: string
+        qty_ordered:
+          type: number
+        qty_ordered_conv:
+          type: number
+        qty_shipped:
+          type: number
+        qty_returned:
+          type: number
+        item_num:
+          type: string
+          description: Item number. Must exist in Items List
+        item_desc:
+          type: string
+        whse_num:
+          type: string
+          description: Warehouse number. Must exist in Warehouses List
+        uom:
+          type: string
+          description: UOM number. Must exist in UOMs List
+        rel_status:
+          type: string
+    UpdateCustomerRequest:
+      type: object
+      properties:
+        cust_name:
+          type: string
+          description: Name of Customer
+        cust_status:
+          type: boolean
+          description: 'Customer Status. 0 = inactive, 1 = active'
+    UpdateEmployeeRequest:
+      type: object
+      properties:
+        emp_name:
+          type: string
+          description: Employee Name
+        shift:
+          type: integer
+          description: Employee Shift
+    CreateEmployeeRequest:
+      required:
+        - emp_num
+        - emp_name
+        - shift
+      type: object
+      properties:
+        emp_num:
+          type: string
+          description: Employee Number
+        emp_name:
+          type: string
+          description: Employee Name
+        shift:
+          type: integer
+          description: 'Employee Shift '
+    UpdateItemLocationRequest:
+      type: object
+      properties:
+        qty_on_hand:
+          type: number
+          description: Quantity on Hand
+        uom:
+          type: string
+          description: UOM Number. Must exist in UOMs Listt
+        qty_on_rsvd:
+          type: number
+          description: Quantity on Reserve
+    UpdateItemRequest:
+      type: object
+      properties:
+        item_desc:
+          type: string
+          description: Item description
+        uom:
+          type: string
+          description: UOM number. Must exist in UOMs List
+        product_code:
+          type: string
+          description: Product Code. Must exist in Product Codes List
+        lot_tracked:
+          type: boolean
+          description: Is Item Lot Tracked?
+        item_status:
+          type: boolean
+          description: Is Item Active?
+    UpdateJobMatlRequest:
+      type: object
+      properties:
+        whse_num:
+          type: string
+          description: Warehouse Num. Must exist in Warehouses List
+        matl_item:
+          type: string
+          description: Material Item Num. Must exist in Items List
+        uom:
+          type: string
+          description: UOM Num. Must exist in UOMs List
+        matl_desc:
+          type: string
+          description: Material Description
+        qty_per:
+          type: number
+        scrap_factor:
+          type: number
+        qty_required:
+          type: number
+    UpdateLocationRequest:
+      type: object
+      properties:
+        whse_num:
+          type: string
+          description: Warehouse Number
+        loc_name:
+          type: string
+          description: Location Name
+        loc_type:
+          enum:
+            - S
+            - T
+            - Q
+          type: string
+          description: 'Location Type - S, T, Q for Stock, Transit or Quarantine'
+    UpdateLotLocationRequest:
+      type: object
+      properties:
+        qty_on_hand:
+          type: number
+          description: Quantity On Hand
+        uom:
+          type: string
+          description: UOM number. Must exist in UOMs List
+        qty_on_rsvd:
+          type: number
+          description: Quantity on RSVD
+    UpdateMachineRequest:
+      type: object
+      properties:
+        res_desc:
+          type: string
+          description: Machine description
+        res_status:
+          type: boolean
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: []
+  - apiKeyQuery: []
